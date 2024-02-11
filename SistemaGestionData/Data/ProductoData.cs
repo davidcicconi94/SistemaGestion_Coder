@@ -4,50 +4,43 @@ using SistemaGestionEntities;
 
 namespace SistemaGestionData.Data
 {
-    public static class UsuarioData
+    internal class ProductoData
     {
-        public static List<Usuario> GetUsuarios()
+        public static List<Producto> ListarProductos()
         {
             using (var context = new ApplicationDbContext())
             {
                 try
                 {
-                    var listaDeUsuarios = context.Usuarios?.ToList();
+                    var listaDeProductos = context.Productos?.ToList();
 
-                    if (listaDeUsuarios.Count == 0)
+                    if (listaDeProductos.Count == 0)
                     {
-                        throw new ListNotFoundException<Usuario>(
-                            listaDeUsuarios,
-                            "Lista de usuarios Vacía "
+                        throw new ListNotFoundException<Producto>(
+                            listaDeProductos,
+                            "Lista de productos Vacía "
                         );
                     }
 
-                    return listaDeUsuarios;
+                    return listaDeProductos;
                 }
-                catch (ListNotFoundException<Usuario> ex)
+                catch (Exception ex)
                 {
-                    if (ex.Data.Contains("ListaVacia") && (bool)ex.Data["ListaVacia"])
-                    {
-                        Console.WriteLine("La lista de usuarios se encuentra vacía");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Error General:", ex.Message);
-                    }
-                    throw; // Busca el catch nuevamente
+                    Console.WriteLine($"Productos no encontrados: {ex.Message}");
+                    return new List<Producto>();
                 }
             }
         }
 
-        public static bool ObtenerUsuario(int id)
+        public static bool ObtenerProducto(int id)
         {
             using (var context = new ApplicationDbContext())
             {
                 try
                 {
-                    var usuarioEncontrado = context.Usuarios?.FirstOrDefault(u => u.Id == id);
+                    var productoEncontrado = context.Productos?.FirstOrDefault(p => p.Id == id);
 
-                    if (usuarioEncontrado != null)
+                    if (productoEncontrado != null)
                     {
                         return true;
                     }
@@ -58,73 +51,46 @@ namespace SistemaGestionData.Data
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine($"Producto no encontrado: {ex.Message}");
                     return false;
                 }
             }
         }
 
-        public static bool CrearUsuario(Usuario usuario)
+        public static bool CrearProducto(Producto nuevoProducto)
         {
             using (var context = new ApplicationDbContext())
             {
                 try
                 {
-                    context.Usuarios?.Add(usuario);
+                    context.Productos?.Add(nuevoProducto);
                     context.SaveChanges();
-
                     return true;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"No fue posible crear un usuario: {ex.Message}");
+                    Console.WriteLine($"No fue posible crear un producto: {ex.Message}");
                     return false;
                 }
             }
         }
 
-        public static bool ModificarUsuarios(int id, Usuario usuarioMod)
+        public static bool ModificarProducto(int id, Producto productoMod)
         {
             using (var context = new ApplicationDbContext())
             {
                 try
                 {
-                    var usuarioExistente = context.Usuarios?.Find(id);
+                    var productoExistente = context.Productos?.FirstOrDefault(x => x.Id == id);
 
-                    if (usuarioExistente != null)
+                    if (productoExistente != null)
                     {
-                        usuarioExistente.Nombre = usuarioMod.Nombre;
-                        usuarioExistente.Apellido = usuarioMod.Apellido;
-                        usuarioExistente.NombreUsuario = usuarioMod.NombreUsuario;
-                        usuarioExistente.Contrasenia = usuarioMod.Contrasenia;
+                        productoExistente.Descripcion = productoMod.Descripcion;
+                        productoExistente.PrecioVenta = productoMod.PrecioVenta;
+                        productoExistente.Stock = productoMod.Stock;
+                        productoExistente.Costo = productoMod.Costo;
+                        productoExistente.IdUsuario = productoMod.IdUsuario;
 
-                        context.SaveChanges();
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"No fue posible modificar un usuario: {ex.Message}");
-                    return false;
-                }
-            }
-        }
-
-        public static bool EliminarUsuario(int id)
-        {
-            using (var context = new ApplicationDbContext())
-            {
-                try
-                {
-                    var usuarioEncontrado = context.Usuarios?.Find(id);
-
-                    if (usuarioEncontrado != null)
-                    {
-                        context.Usuarios?.Remove(usuarioEncontrado);
                         context.SaveChanges();
                         return true;
                     }
@@ -135,7 +101,34 @@ namespace SistemaGestionData.Data
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"No fue posible eliminar el usuario: {ex.Message}");
+                    Console.WriteLine($"No fue posible modificar un producto: {ex.Message}");
+                    return false;
+                }
+            }
+        }
+
+        public static bool EliminarProducto(int id)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                try
+                {
+                    var productoAEliminar = context.Productos?.FirstOrDefault(x => x.Id == id);
+
+                    if (productoAEliminar != null)
+                    {
+                        context.Productos?.Remove(productoAEliminar);
+                        context.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"No fue posible eliminar un producto: {ex.Message}");
                     return false;
                 }
             }

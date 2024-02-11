@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SistemaGestionEntities
+﻿namespace SistemaGestionEntities
 {
     public class Usuario
     {
@@ -13,6 +7,6 @@ namespace SistemaGestionEntities
         public string Apellido { get; set; } 
         public string NombreUsuario { get; set; } 
         public string Contrasenia { get; set; }
-        public string Mail { get; set; } 
+        public string Mail { get; set; }
     }
 }

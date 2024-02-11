@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace SistemaGestionEntities
 {
     public class ProductoVendido
     {
+        public int Id { get; set; }
+
+        [ForeignKey(nameof(IdProducto))]
+        public int IdProducto { get; set; }
+        public int Stock { get; set; }
+
+        [ForeignKey(nameof(IdVenta))]
+        public int IdVenta { get; set; }
+
+        public Producto? Producto { get; set; }
+        public Venta? Venta { get; set; }
     }
 }
