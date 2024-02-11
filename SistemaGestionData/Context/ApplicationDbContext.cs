@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SistemaGestionEntities;
 
 namespace SistemaGestionData.Context
@@ -10,7 +11,10 @@ namespace SistemaGestionData.Context
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
+        {
+            optionsBuilder.UseSqlServer("Data Source=localhost\\SQLExpress;Initial Catalog=SistemaGestionDB;Integrated Security=True;Trust Server Certificate=True");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -18,7 +22,6 @@ namespace SistemaGestionData.Context
 
             base.OnModelCreating(modelBuilder);
         }
-
         public virtual DbSet<Usuario> Usuarios { get; set; }
     }
 }
