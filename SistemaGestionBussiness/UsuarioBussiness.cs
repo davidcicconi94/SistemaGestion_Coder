@@ -1,10 +1,5 @@
 ﻿using SistemaGestionData.Data;
 using SistemaGestionEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SistemaGestionBussiness
 {
@@ -14,7 +9,7 @@ namespace SistemaGestionBussiness
         {
             try
             {
-                List<Usuario> listaDeUsuarios = UsuarioData.GetUsuarios();
+                List<Usuario> listaDeUsuarios = UsuarioData.ListarUsuarios();
                 return listaDeUsuarios;
             }
             catch (Exception ex) 

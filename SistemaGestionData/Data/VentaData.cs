@@ -18,7 +18,7 @@ namespace SistemaGestionData.Data
                     {
                         throw new ListNotFoundException<Venta>(
                             listaDeVentas,
-                            "Lista de ventas Vacía "
+                            "Lista de ventas Vacía."
                         );
                     }
 

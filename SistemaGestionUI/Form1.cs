@@ -11,6 +11,9 @@ namespace SistemaGestionUI
         {
             InitializeComponent();
             GetUsuariosList();
+            GetProductosList();
+            GetProductosVendidosList();
+            GetVentasList();
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -86,6 +89,70 @@ namespace SistemaGestionUI
                 MessageBox.Show($"Error:", ex.Message);
             }
         }
+
+        private void GetProductosList()
+        {
+            try
+            {
+                List<Producto> listaDeProductos = ProductoBussiness.GetProductos();
+
+                if (listaDeProductos.Count == 0)
+                {
+                    listBox1.Items.Add("No hay productos en la lista.");
+                }
+                else
+                {
+                    listBox1.Items.Add(listaDeProductos);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"Error:", ex.Message);
+            }
+        }
+
+        private void GetProductosVendidosList()
+        {
+            try
+            {
+                List<ProductoVendido> listaDeProductosVendidos = ProductoVendidoBussiness.GetProductosVendidos();
+
+                if (listaDeProductosVendidos.Count == 0)
+                {
+                    listBox1.Items.Add("No hay productos vendidos en la lista.");
+                }
+                else
+                {
+                    listBox1.Items.Add(listaDeProductosVendidos);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error:", ex.Message);
+            }
+        }
+
+        private void GetVentasList()
+        {
+            try
+            {
+                List<Venta> listaDeVentas = VentaBussiness.GetVentas();
+
+                if (listaDeVentas.Count == 0)
+                {
+                    listBox1.Items.Add("No hay ventas en la lista.");
+                }
+                else
+                {
+                    listBox1.Items.Add(listaDeVentas);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error:", ex.Message);
+            }
+        }
+
 
         private void button1_Click_1(object sender, EventArgs e)
         {

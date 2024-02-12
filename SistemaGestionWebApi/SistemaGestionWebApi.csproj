@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SistemaGestionBussiness\SistemaGestionBussiness.csproj" />
     <ProjectReference Include="..\SistemaGestionData\SistemaGestionData.csproj" />
   </ItemGroup>
 

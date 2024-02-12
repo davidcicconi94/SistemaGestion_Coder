@@ -1,12 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SistemaGestionData.Data;
+using SistemaGestionEntities;
+
 
 namespace SistemaGestionBussiness
 {
-    internal class ProductoBussiness
+    public static class ProductoBussiness
     {
+        public static List<Producto> GetProductos()
+        {
+            try
+            {
+                var listaDeProductos = ProductoData.ListarProductos();
+                return listaDeProductos;
+            }
+            catch(Exception ex) 
+            { 
+                return new List<Producto>();
+            }
+        }
     }
 }

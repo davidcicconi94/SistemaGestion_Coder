@@ -4,7 +4,7 @@ using SistemaGestionEntities;
 
 namespace SistemaGestionData.Data
 {
-    internal class ProductoData
+    public class ProductoData
     {
         public static List<Producto> ListarProductos()
         {

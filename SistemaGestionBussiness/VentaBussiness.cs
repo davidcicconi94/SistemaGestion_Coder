@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SistemaGestionData.Data;
+using SistemaGestionEntities;
 
 namespace SistemaGestionBussiness
 {
-    internal class VentaBussiness
+    public static class VentaBussiness
     {
+        public static List<Venta> GetVentas()
+        {
+            try
+            {
+                var listaDeVentas = VentaData.ListarVentas();
+                return listaDeVentas;
+            }
+            catch(Exception ex)
+            {
+                return new List<Venta>();
+            }
+        }
     }
 }
