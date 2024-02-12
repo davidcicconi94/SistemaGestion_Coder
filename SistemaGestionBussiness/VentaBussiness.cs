@@ -7,15 +7,27 @@ namespace SistemaGestionBussiness
     {
         public static List<Venta> GetVentas()
         {
-            try
-            {
-                var listaDeVentas = VentaData.ListarVentas();
-                return listaDeVentas;
-            }
-            catch(Exception ex)
-            {
-                return new List<Venta>();
-            }
+            return VentaData.ListarVentas();
+        }
+
+        public static Venta? GetVenta(int id)
+        {
+            return VentaData.ObtenerVenta(id);
+        }
+
+        public static void CrearVenta(Venta usuario)
+        {
+            VentaData.CrearVenta(usuario);
+        }
+
+        public static void ModificarVenta(Venta ventaMod)
+        {
+            VentaData.ModificarVenta(ventaMod);
+        }
+
+        public static void EliminarVenta(int id)
+        {
+            VentaData.EliminarVenta(id);
         }
     }
 }

@@ -8,15 +8,27 @@ namespace SistemaGestionBussiness
     {
         public static List<Producto> GetProductos()
         {
-            try
-            {
-                var listaDeProductos = ProductoData.ListarProductos();
-                return listaDeProductos;
-            }
-            catch(Exception ex) 
-            { 
-                return new List<Producto>();
-            }
+            return ProductoData.ListarProductos();
+        }
+
+        public static Producto GetProducto(int id)
+        {
+            return ProductoData.ObtenerProducto(id);
+        }
+
+        public static void CrearProducto(Producto producto)
+        {
+            ProductoData.CrearProducto(producto);
+        }
+
+        public static void ModificarProducto(Producto productoModificado)
+        {
+            ProductoData.ModificarProducto(productoModificado);
+        }
+
+        public static void EliminarProducto(int id)
+        {
+            ProductoData.EliminarProducto(id);
         }
     }
 }

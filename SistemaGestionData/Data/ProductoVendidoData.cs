@@ -6,7 +6,7 @@ namespace SistemaGestionData.Data
 {
     public class ProductoVendidoData
     {
-        public static List<ProductoVendido> ListarProductosVendidos()
+        public static List<ProductoVendido>? ListarProductosVendidos()
         {
             using (var context = new ApplicationDbContext())
             {
@@ -26,12 +26,12 @@ namespace SistemaGestionData.Data
                 catch (Exception ex)
                 {
                     Console.Write($"Productos vendidos no encontrados: {ex.Message}");
-                    return new List<ProductoVendido>();
+                    return null;
                 }
             }
         }
 
-        public static bool ObtenerProductoVendido(int id)
+        public static ProductoVendido? ObtenerProductoVendido(int id)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -43,21 +43,21 @@ namespace SistemaGestionData.Data
 
                     if (productoVendidoEncontrado != null)
                     {
-                        return true;
+                        return productoVendidoEncontrado;
                     }
                     else
                     {
-                        return false;
+                        return null; 
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Producto vendido no encontrado: {ex.Message}");
-                    return false;
+                    return null;
                 }
             }
         }
-        public static bool CrearProductoVendido(ProductoVendido nuevoProductoVendido)
+        public static void CrearProductoVendido(ProductoVendido nuevoProductoVendido)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -65,23 +65,22 @@ namespace SistemaGestionData.Data
                 {
                     context.Add(nuevoProductoVendido);
                     context.SaveChanges();
-                    return true;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"No fue posible crear un producto vendido: {ex.Message}");
-                    return false;
+                    return;
                 }
             }
         }
 
-        public static bool ModificarProductoVendido(int id, ProductoVendido productoVendidoMod)
+        public static void ModificarProductoVendido(ProductoVendido productoVendidoMod)
         {
             using (var context = new ApplicationDbContext())
             {
                 try
                 {
-                    var productoVendido = context.ProductosVendidos?.Find(id);
+                    var productoVendido = context.ProductosVendidos?.FirstOrDefault(p => p.Id == productoVendidoMod.Id);
 
                     if (productoVendido != null)
                     {
@@ -90,24 +89,17 @@ namespace SistemaGestionData.Data
                         productoVendido.Stock = productoVendido.Stock;
 
                         context.SaveChanges();
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(
-                        $"No fue posible modificar un producto vendido: {ex.Message}"
-                    );
-                    return false;
+                    Console.WriteLine($"No fue posible modificar un producto vendido: {ex.Message}");
+                    return ;
                 }
             }
         }
 
-        public static bool EliminarProductoVendido(int id)
+        public static void EliminarProductoVendido(int id)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -118,17 +110,12 @@ namespace SistemaGestionData.Data
                     if (productoVendidoEncontrado != null)
                     {
                         context.ProductosVendidos?.Remove(productoVendidoEncontrado);
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"No fue posible eliminar un producto vendido: {ex.Message}");
-                    return false;
+                    return;
                 }
             }
         }

@@ -102,7 +102,7 @@ namespace SistemaGestionUI
                 }
                 else
                 {
-                    listBox1.Items.Add(listaDeProductos);
+                    // listBox1.Items.Add(listaDeProductos);
                 }
             }
             catch(Exception ex)

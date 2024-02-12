@@ -32,7 +32,7 @@ namespace SistemaGestionData.Data
             }
         }
 
-        public static bool ObtenerProducto(int id)
+        public static Producto ObtenerProducto(int id)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -42,22 +42,21 @@ namespace SistemaGestionData.Data
 
                     if (productoEncontrado != null)
                     {
-                        return true;
+                        return productoEncontrado;
                     }
                     else
                     {
-                        return false;
+                        throw new InvalidOperationException($"No se encontró producto con el ID: {id}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Producto no encontrado: {ex.Message}");
-                    return false;
+                    throw new Exception("Ocurrió un error al obtener el producto. Consulta los registros para obtener más detalles.", ex);
                 }
             }
         }
 
-        public static bool CrearProducto(Producto nuevoProducto)
+        public static void CrearProducto(Producto nuevoProducto)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -65,23 +64,22 @@ namespace SistemaGestionData.Data
                 {
                     context.Productos?.Add(nuevoProducto);
                     context.SaveChanges();
-                    return true;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"No fue posible crear un producto: {ex.Message}");
-                    return false;
+                    return;
                 }
             }
         }
 
-        public static bool ModificarProducto(int id, Producto productoMod)
+        public static void ModificarProducto(Producto productoMod)
         {
             using (var context = new ApplicationDbContext())
             {
                 try
                 {
-                    var productoExistente = context.Productos?.FirstOrDefault(x => x.Id == id);
+                    var productoExistente = context.Productos?.FirstOrDefault(x => x.Id == productoMod.Id);
 
                     if (productoExistente != null)
                     {
@@ -92,22 +90,17 @@ namespace SistemaGestionData.Data
                         productoExistente.IdUsuario = productoMod.IdUsuario;
 
                         context.SaveChanges();
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"No fue posible modificar un producto: {ex.Message}");
-                    return false;
+                    return;
                 }
             }
         }
 
-        public static bool EliminarProducto(int id)
+        public static void EliminarProducto(int id)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -119,17 +112,12 @@ namespace SistemaGestionData.Data
                     {
                         context.Productos?.Remove(productoAEliminar);
                         context.SaveChanges();
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"No fue posible eliminar un producto: {ex.Message}");
-                    return false;
+                    return;
                 }
             }
         }

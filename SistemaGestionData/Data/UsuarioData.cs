@@ -39,7 +39,7 @@ namespace SistemaGestionData.Data
             }
         }
 
-        public static bool ObtenerUsuario(int id)
+        public static Usuario ObtenerUsuario(int id)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -49,16 +49,16 @@ namespace SistemaGestionData.Data
 
                     if (usuarioEncontrado != null)
                     {
-                        return true;
+                        return usuarioEncontrado;
                     }
                     else
                     {
-                        return false;
+                        throw new InvalidOperationException($"No se encontró usuario con el ID: {id}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    return false;
+                    throw new Exception("Ocurrió un error al obtener el usuario. Consulta los registros para obtener más detalles.", ex);
                 }
             }
         }
@@ -82,13 +82,13 @@ namespace SistemaGestionData.Data
             }
         }
 
-        public static bool ModificarUsuarios(int id, Usuario usuarioMod)
+        public static void ModificarUsuarios(Usuario usuarioMod)
         {
             using (var context = new ApplicationDbContext())
             {
                 try
                 {
-                    var usuarioExistente = context.Usuarios?.Find(id);
+                    var usuarioExistente = context.Usuarios?.FirstOrDefault(p => p.Id == usuarioMod.Id);
 
                     if (usuarioExistente != null)
                     {
@@ -98,23 +98,17 @@ namespace SistemaGestionData.Data
                         usuarioExistente.Contrasenia = usuarioMod.Contrasenia;
 
                         context.SaveChanges();
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"No fue posible modificar un usuario: {ex.Message}");
-                    return false;
+                    return;
                 }
             }
         }
 
-        public static bool EliminarUsuario(int id)
+        public static void EliminarUsuario(int id)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -126,17 +120,12 @@ namespace SistemaGestionData.Data
                     {
                         context.Usuarios?.Remove(usuarioEncontrado);
                         context.SaveChanges();
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"No fue posible eliminar el usuario: {ex.Message}");
-                    return false;
+                    return;
                 }
             }
         }

@@ -10,17 +10,29 @@ namespace SistemaGestionBussiness
 {
     public static class ProductoVendidoBussiness
     {
-        public static List<ProductoVendido> GetProductosVendidos()
+        public static List<ProductoVendido>? GetProductosVendidos()
         {
-            try
-            {
-                var listaDeProductosVendidos = ProductoVendidoData.ListarProductosVendidos();
-                return listaDeProductosVendidos;
-            }
-            catch (Exception e)
-            {
-                return new List<ProductoVendido>();
-            }
+            return ProductoVendidoData.ListarProductosVendidos();
+        }
+
+        public static ProductoVendido? GetProductoVendido(int id)
+        {
+            return ProductoVendidoData.ObtenerProductoVendido(id);
+        }
+
+        public static void CrearProductoVendido(ProductoVendido producto)
+        {
+            ProductoVendidoData.CrearProductoVendido(producto);
+        }
+
+        public static void ModificarProductoVendido(ProductoVendido productoModificado)
+        {
+            ProductoVendidoData.ModificarProductoVendido(productoModificado);
+        }
+
+        public static void EliminarProductoVendido(int id)
+        {
+            ProductoVendidoData.EliminarProductoVendido(id);
         }
     }
 }

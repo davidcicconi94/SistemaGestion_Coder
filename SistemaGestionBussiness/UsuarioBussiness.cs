@@ -5,18 +5,29 @@ namespace SistemaGestionBussiness
 {
     public static class UsuarioBussiness
     {
-        public static List<Usuario> GetUsuarios()
+        public static List<Usuario>  GetUsuarios()
         {
-            try
-            {
-                List<Usuario> listaDeUsuarios = UsuarioData.ListarUsuarios();
-                return listaDeUsuarios;
-            }
-            catch (Exception ex) 
-            {
-                Console.WriteLine(ex.Message);   
-                return new List<Usuario>() { };
-            }
+            return UsuarioData.ListarUsuarios();
+        }
+
+        public static Usuario GetUsuario(int id) 
+        {
+            return UsuarioData.ObtenerUsuario(id);
+        }
+
+        public static void CrearUsuario(Usuario usuario)
+        {
+            UsuarioData.CrearUsuario(usuario);
+        }
+
+        public static void ModificarUsuario(Usuario usuarioModificado)
+        {
+            UsuarioData.ModificarUsuarios(usuarioModificado);
+        }
+
+        public static void EliminarUsuario(int id)
+        {
+            UsuarioData.EliminarUsuario(id);
         }
     }
 }

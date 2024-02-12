@@ -30,7 +30,7 @@ namespace SistemaGestionData.Data
                 }
             }
         }
-        public static bool ObtenerVenta(int id)
+        public static Venta? ObtenerVenta(int id)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -40,22 +40,22 @@ namespace SistemaGestionData.Data
 
                     if (ventaEncontrada != null)
                     {
-                        return true;
+                        return ventaEncontrada;
                     }
                     else
                     {
-                        return false;
+                        return null;
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Venta no encontrada: {ex.Message}");
-                    return false;
+                    return null;
                 }
             }
         }
 
-        public static bool CrearVenta(Venta ventaCreada)
+        public static void CrearVenta(Venta ventaCreada)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -63,42 +63,35 @@ namespace SistemaGestionData.Data
                 {
                     context.Ventas?.Add(ventaCreada);
                     context.SaveChanges();
-                    return true;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"No fue posible crear una venta: {ex.Message}");
-                    return false;
                 }
             }
         }
-        public static bool ModificarVenta(int id, Venta ventaMod)
+        public static void ModificarVenta(Venta ventaMod)
         {
             using (var context = new ApplicationDbContext())
             {
                 try
                 {
-                    var ventaExistente = context.Ventas?.Find(id);
+                    var ventaExistente = context.Ventas?.FirstOrDefault(p => p.Id == ventaMod.Id);
 
                     if (ventaExistente != null)
                     {
                         ventaExistente.Comentarios = ventaMod.Comentarios;
                         ventaExistente.IdUsuario = ventaMod.IdUsuario;
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"No fue posible modificar una venta: {ex.Message}");
-                    return false;
+                    return;
                 }
             }
         }
-        public static bool EliminarVenta(int id)
+        public static void EliminarVenta(int id)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -109,18 +102,12 @@ namespace SistemaGestionData.Data
                     if (ventaExistente != null)
                     {
                         context.Ventas?.Remove(ventaExistente);
-                        return true;
                     }
-                    else
-                    {
-                        return false;
-                    }
-
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"No fue posible eliminar un producto: {ex.Message}");
-                    return false;
+                    return;
                 }
             }
         }
