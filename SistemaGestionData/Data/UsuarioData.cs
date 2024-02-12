@@ -6,7 +6,7 @@ namespace SistemaGestionData.Data
 {
     public static class UsuarioData
     {
-        public static List<Usuario> GetUsuarios()
+        public static List<Usuario> ListarUsuarios()
         {
             using (var context = new ApplicationDbContext())
             {
