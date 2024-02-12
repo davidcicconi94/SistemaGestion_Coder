@@ -9,9 +9,17 @@ namespace SistemaGestionWebApi.Controllers
     public class UsuarioController: ControllerBase
     {
         [HttpGet(Name = "GetClientes")] 
-        public IEnumerable<Usuario> Get() 
+        public ActionResult<List<Usuario>> Get() 
         {
-            return UsuarioBussiness.GetUsuarios().ToArray();
+            try
+            {
+                var listaDeUsuarios = UsuarioBussiness.GetUsuarios();
+                return Ok(listaDeUsuarios);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);  
+            }
         }
     }
 }
