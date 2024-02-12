@@ -12,7 +12,6 @@ namespace SistemaGestionUI
             InitializeComponent();
             GetUsuariosList();
             GetProductosList();
-            GetProductosVendidosList();
             GetVentasList();
         }
 
@@ -110,28 +109,6 @@ namespace SistemaGestionUI
                 MessageBox.Show($"Error:", ex.Message);
             }
         }
-
-        private void GetProductosVendidosList()
-        {
-            try
-            {
-                List<ProductoVendido> listaDeProductosVendidos = ProductoVendidoBussiness.GetProductosVendidos();
-
-                if (listaDeProductosVendidos.Count == 0)
-                {
-                    listBox1.Items.Add("No hay productos vendidos en la lista.");
-                }
-                else
-                {
-                    listBox1.Items.Add(listaDeProductosVendidos);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error:", ex.Message);
-            }
-        }
-
         private void GetVentasList()
         {
             try
