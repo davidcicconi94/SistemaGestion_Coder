@@ -45,12 +45,18 @@ namespace SistemaGestionWebApi.Controllers
         }
 
         [HttpPost(Name = "CreateVenta")]
-        public ActionResult<Venta> Create([FromBody] Venta venta)
+        public ActionResult<Venta> Create([FromBody] List<Producto> productos, int usuarioId)
         {
             try
             {
-                VentaBussiness.CrearVenta(venta);
-                return Ok(venta);
+                if (productos == null || productos.Count == 0 || usuarioId <= 0)
+                {
+                    return BadRequest("La solicitud es inválida. Asegúrate de proporcionar una lista de productos y un IdUsuario válido.");
+                }
+
+                VentaBussiness.CrearVenta(productos, usuarioId);
+
+                return Ok("Venta cargada exitosamente");
             }
             catch (Exception ex)
             {

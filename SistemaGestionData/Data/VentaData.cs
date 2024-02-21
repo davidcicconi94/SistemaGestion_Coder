@@ -1,4 +1,5 @@
-﻿using SistemaGestionData.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using SistemaGestionData.Context;
 using SistemaGestionData.Exceptions;
 using SistemaGestionEntities;
 
@@ -55,14 +56,31 @@ namespace SistemaGestionData.Data
             }
         }
 
-        public static void CrearVenta(Venta ventaCreada)
+        public static void CrearVenta(List<Producto> productos, int usuarioId)
         {
             using (var context = new ApplicationDbContext())
             {
                 try
                 {
-                    context.Ventas?.Add(ventaCreada);
+                    Venta venta = new Venta
+                    {
+                        IdUsuario = usuarioId,
+                    };
+
+                    context.Ventas?.Add(venta);
                     context.SaveChanges();
+
+                    foreach(var producto in productos)
+                    {
+                        ProductoVendido productoVendido = new ProductoVendido
+                        {
+                            IdVenta = venta.Id,
+                            IdProducto = producto.Id,
+                        };
+
+                        context.ProductosVendidos?.Add(productoVendido);
+                        context.SaveChanges();
+                    }
                 }
                 catch (Exception ex)
                 {

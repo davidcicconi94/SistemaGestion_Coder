@@ -15,9 +15,9 @@ namespace SistemaGestionBussiness
             return VentaData.ObtenerVenta(id);
         }
 
-        public static void CrearVenta(Venta usuario)
+        public static void CrearVenta(List<Producto> productos, int idUsuario)
         {
-            VentaData.CrearVenta(usuario);
+            VentaData.CrearVenta(productos, idUsuario);
         }
 
         public static void ModificarVenta(Venta ventaMod)
